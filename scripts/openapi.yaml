@@ -1,0 +1,256 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: Pet Adoption Store
+  description: Server for Pet Adoption
+
+paths:
+  "/category":
+    post:
+      tags:
+        - Category
+      summary: Add a category of pet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categoryName: 
+                  type: string
+                  example: dog
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 1
+    get:
+      tags:
+        - Category
+      summary: get a list of all Categories
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        
+  "/breed":
+    post:
+      tags:
+        - Breed
+      summary: Add a new breed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categoryId:
+                  type: integer
+                  example: 1
+                breedName:
+                  type: string
+                  example: German Shepherd
+      responses:
+        200:
+          description: Add breed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 100
+                
+  "/breed/{categoryId}":
+    get:
+      tags:
+        - Breed
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: integer
+            example: 1
+      summary: Get breeds based on category
+      responses:
+        200:
+          description: Get all breeds based on category id
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Breed"
+        
+  "/pet":
+    post:
+      tags:
+        - Pet
+      summary: Add a new pet to the store
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: Success
+  
+    get:
+      parameters:
+        - in: query
+          name: categoryId
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: category id to fetch pets for
+      tags:
+        - Pet
+      summary: Get all pets based on category id
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+    
+                  
+  "/pet/{petId}":
+    get:
+      parameters:
+        - in: path
+          name: petId
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: Get pet based on its id
+      summary: Get a pet's details based on id
+      tags:
+        - Pet
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+    delete:
+      tags:
+        - Pet
+      summary: Delete a pet
+      parameters:
+        - in: path
+          name: petId
+          schema:
+            type: integer
+            example: 1
+          required: true
+          description: Pet id to delete
+      responses:
+        200:
+          description: Success
+    
+    put:
+      tags:
+        - Pet
+      summary: Update a pet
+      parameters:
+        - in: path
+          name: petId
+          schema:
+            type: integer
+          required: true
+          description: Pet Id to update
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/Pet"
+      responses:
+        200:
+          description: Success
+  
+
+components:
+  schemas:
+    Category:
+      description: Category of pets
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        categoryName:
+          type: string
+          enum: [dog,cat,hamster,parrot,rabbit]
+          example: dog
+          
+    Breed:
+      description: Breed of a pet within a category
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        breedName:
+          type: string
+          example: German Shepherd
+        categoryId:
+          type: integer
+          example: 1
+          
+    Location:
+      description: Location of a pet
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        locationName:
+          type: string
+          example: Whosville
+          
+    Pet:
+      description: Pet details
+      type: object
+      properties:
+        petId:
+          type: integer
+          example: 1
+        petName:
+          type: string
+          example: Tabby
+        petImageUrl:
+          type: string
+          example: www.link/to/image.jpg
+        age:
+          type: number
+          example: 0.5
+        petDescription:
+          type: string
+          example: Fun loving and active
+        category:
+          $ref: '#/components/schemas/Category'
+        breed:
+          $ref: '#/components/schemas/Breed'
+        location:
+          $ref: '#/components/schemas/Location'
