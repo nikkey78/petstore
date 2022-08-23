@@ -6,7 +6,7 @@ type Category struct {
 }
 
 type CategoryService interface {
-	CreateCategory() error
+	CreateCategory() (int, error)
 	GetCategory(id int) (*Category, error)
-	GetAllCategories() ([]*Category, error)
+	GetAllCategory() ([]*Category, error)
 }
