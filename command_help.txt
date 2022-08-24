@@ -1,0 +1,16 @@
+# delete all data in table
+DELETE FROM table_name [WHERE condition];
+
+# SQLite Reset Primary Key Field
+UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='table_name';
+
+# MANAGE SQLite
+sqlite3 name.db
+.mod box
+.tables
+.schemas
+.read sql_file.sql
+
+# RUN GO TEST
+go test ./... -v
+go test ./... -count=1 -v  # for for forced tests when caching

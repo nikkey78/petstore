@@ -11,12 +11,12 @@ const (
 	dbname = "pet.db"
 )
 
-var (
-	DbClient *sql.DB
-	err      error
-)
+var DbClient *sql.DB
 
 func init() {
+
+	var err error
+
 	DbClient, err = sql.Open("sqlite3", dbname)
 	if err != nil {
 		log.Fatal(err)
