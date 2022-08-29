@@ -14,7 +14,7 @@ type BreedService models.BreedService
 
 // insert into category(category_name) values ("category name")
 func (b Breed) CreateBreed() (int, error) {
-	result, err := client.DbClient.Exec("INSERT INTO breed (breed_name, category_id) VALUES ($1, $2)", b.BreedName, b.CategoryID)
+	result, err := client.DbClient.Exec("INSERT INTO breed (breed_name, category_id) VALUES ($1, $2);", b.BreedName, b.CategoryID)
 	if err != nil {
 		return b.ID, fmt.Errorf("Inserted failed. error: %v", err)
 	}
@@ -26,17 +26,17 @@ func (b Breed) CreateBreed() (int, error) {
 	return b.ID, nil
 }
 
-func (b Breed) GetBreedsByCategory(categoryId int) ([]*Breed, error) {
-	var breeds []*Breed
-	rows, err := client.DbClient.Query("SELECT id, breed_name, category_id FROM breed WHERE category_id=$1", categoryId)
+func (b Breed) GetBreedsByCategory(categoryId int) ([]*models.Breed, error) {
+	var breeds []*models.Breed
+	rows, err := client.DbClient.Query("SELECT id, breed_name, category_id FROM breed WHERE category_id=$1;", categoryId)
 	if err != nil {
-		return nil, fmt.Errorf("Inserted failed. error: %v", err)
+		return nil, fmt.Errorf("Query to database failed. error: %v", err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		rows.Scan(&b.ID, &b.BreedName, &b.CategoryID)
-		newBreed := b
+		newBreed := models.Breed(b)
 		breeds = append(breeds, &newBreed)
 	}
 

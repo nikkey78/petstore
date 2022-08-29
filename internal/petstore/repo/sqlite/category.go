@@ -13,7 +13,7 @@ type CategoryService models.CategoryService
 
 // insert into category(category_name) values ("category name")
 func (c Category) CreateCategory() (int, error) {
-	result, err := client.DbClient.Exec("INSERT INTO category (category_name) VALUES ($1)", c.CategoryName)
+	result, err := client.DbClient.Exec("INSERT INTO category (category_name) VALUES ($1);", c.CategoryName)
 	if err != nil {
 		return c.ID, fmt.Errorf("Inserted failed. error: %v", err)
 	}
@@ -25,8 +25,8 @@ func (c Category) CreateCategory() (int, error) {
 	return c.ID, nil
 }
 
-func (c Category) GetCategory(id int) (*Category, error) {
-	row := client.DbClient.QueryRow("SELECT * FROM category WHERE id=$1", id)
+func (c Category) GetCategory(id int) (*models.Category, error) {
+	row := client.DbClient.QueryRow("SELECT * FROM category WHERE id=$1;", id)
 
 	if err := row.Scan(&c.ID, &c.CategoryName); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -35,13 +35,14 @@ func (c Category) GetCategory(id int) (*Category, error) {
 		return nil, fmt.Errorf("database error: %v", err)
 	}
 
-	return &c, nil
+	category := models.Category(c)
+	return &category, nil
 }
 
-func (c Category) GetAllCategory() ([]*Category, error) {
-	var categories []*Category
+func (c Category) GetAllCategory() ([]*models.Category, error) {
+	var categories []*models.Category
 
-	rows, err := client.DbClient.Query("SELECT * FROM category")
+	rows, err := client.DbClient.Query("SELECT * FROM category;")
 	if err != nil {
 		return nil, fmt.Errorf("database error: %v", err)
 	}
@@ -50,7 +51,7 @@ func (c Category) GetAllCategory() ([]*Category, error) {
 
 	for rows.Next() {
 		rows.Scan(&c.ID, &c.CategoryName)
-		newCat := c
+		newCat := models.Category(c)
 		categories = append(categories, &newCat)
 	}
 

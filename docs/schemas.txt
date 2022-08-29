@@ -1,0 +1,34 @@
+//// -- LEVEL 1
+//// -- Schemas, Tables and References
+
+// Creating tables
+// You can define the tables with full schema names
+https://dbdiagram.io/d
+
+Table category {
+  id int
+  category_name varchar
+}
+
+
+Table pet {
+  id int [pk] 
+  name 
+  age float
+  image_url varchar
+	description varchar
+	category_id int [ref: > category.id]
+	breed_id int [ref: > breed.id]
+	location_id int [ref: > location.id]
+}
+
+Table breed {
+  id [pk]
+  breed_name varchar
+  category_id int [ref: > category.id]
+}
+
+Table location {
+  id int
+  location_name varchar
+}

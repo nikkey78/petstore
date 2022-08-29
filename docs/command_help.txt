@@ -1,16 +1,27 @@
+## SQL QUERIES
+
 # delete all data in table
 DELETE FROM table_name [WHERE condition];
 
 # SQLite Reset Primary Key Field
 UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='table_name';
 
-# MANAGE SQLite
+# join
+SELECT b.id, b.breed_name, b.category_id, c.category_name 
+  FROM breed AS b
+INNER JOIN category AS c on b.category_id = c.id; 
+
+
+
+## MANAGE SQLite
 sqlite3 name.db
 .mod box
 .tables
 .schemas
 .read sql_file.sql
 
-# RUN GO TEST
+
+
+## RUN GO TEST
 go test ./... -v
 go test ./... -count=1 -v  # for for forced tests when caching

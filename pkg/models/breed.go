@@ -2,8 +2,8 @@ package models
 
 type Breed struct{
 	ID int `json:"id"`
-	BreedName string `json:"breedName"`
-	CategoryID int `json:"categoryId"`
+	BreedName string `json:"breed_name"`
+	CategoryID int `json:"category_id"`
 }
 
 type BreedService interface{

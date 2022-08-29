@@ -2,7 +2,7 @@ package models
 
 type Category struct {
 	ID           int    `json:"id"`
-	CategoryName string `json:"categoryName"`
+	CategoryName string `json:"category_name"`
 }
 
 type CategoryService interface {
