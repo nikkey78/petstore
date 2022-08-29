@@ -9,10 +9,6 @@ import (
 type Breed models.Breed
 type BreedService models.BreedService
 
-// CreateBreed() error
-// 	GetBreedsByCategory(categoryId int)([]*Breed, error)
-
-// insert into category(category_name) values ("category name")
 func (b Breed) CreateBreed() (int, error) {
 	result, err := client.DbClient.Exec("INSERT INTO breed (breed_name, category_id) VALUES ($1, $2);", b.BreedName, b.CategoryID)
 	if err != nil {
