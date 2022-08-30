@@ -6,7 +6,7 @@ type Location struct {
 }
 
 type LocationService interface {
-	CreateLocation() error
+	CreateLocation() (int, error)
 	GetAllLocations() ([]*Location, error)
 	// GetLocation(id int)(*Location, error)
 }

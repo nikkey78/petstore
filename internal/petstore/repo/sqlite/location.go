@@ -7,7 +7,7 @@ import (
 )
 
 type Location models.Location
-type LocationService models.Location
+type LocationService models.LocationService
 
 func (l Location) CreateLocation() (int, error) {
 	result, err := client.DbClient.Exec("INSERT INTO location (location_name) VALUES ($1);", l.LocationName)

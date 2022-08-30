@@ -7,6 +7,6 @@ type Breed struct{
 }
 
 type BreedService interface{
-	CreateBreed() error
+	CreateBreed() (int, error)
 	GetBreedsByCategory(categoryId int)([]*Breed, error)
 }

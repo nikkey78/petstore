@@ -7,9 +7,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-const (
-	dbname = "pet.db"
-)
+const dbname string = "pet.db"
 
 var DbClient *sql.DB
 

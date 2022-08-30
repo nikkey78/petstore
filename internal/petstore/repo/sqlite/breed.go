@@ -42,3 +42,4 @@ func (b Breed) GetBreedsByCategory(categoryId int) ([]*models.Breed, error) {
 
 	return breeds, nil
 }
+

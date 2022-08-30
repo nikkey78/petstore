@@ -12,9 +12,9 @@ type Pet struct {
 }
 
 type PetService interface {
-	CreatePet() error
+	CreatePet() (int, error)
 	GetPetsByCategory(catogoryID int) ([]*Pet, error)
 	GetPet(id int) (*Pet, error)
-	DeletePet(id int) error
+	DeletePet(id int) (int, error)
 }
 
